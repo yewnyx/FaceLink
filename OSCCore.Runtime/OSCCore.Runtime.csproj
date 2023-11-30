@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BlobHandles\BlobHandles.csproj" />
+      <ProjectReference Include="..\NtpTimestamp\NtpTimestamp.csproj" />
+    </ItemGroup>
+
+</Project>
