@@ -3,31 +3,28 @@ using OscCore;
 
 namespace xyz.yewnyx.FaceLink; 
 
-public struct ValueReaders {
-    // change to unsafe fixed-size array
-    public unsafe fixed float EyeTrackData[3];
-    public unsafe fixed float Eyelids[2];
+public class  ValueReaders {
+    public float[] EyeTrackData = new float[3];
+    public float[] Eyelids = new float[2];
     public UnifiedExpressionsValues Values;
 
     public void EyeTrackedGazePointValueRead(OscMessageValues mv) {
         var one = float.Parse(mv.ReadStringElement(0), CultureInfo.InvariantCulture.NumberFormat);
         var two = float.Parse(mv.ReadStringElement(1), CultureInfo.InvariantCulture.NumberFormat);
         var three = float.Parse(mv.ReadStringElement(2), CultureInfo.InvariantCulture.NumberFormat);
-        unsafe {
-            EyeTrackData[0] = one;
-            EyeTrackData[1] = two;
-            EyeTrackData[2] = three;
-        }
+        EyeTrackData[0] = one;
+        EyeTrackData[1] = two;
+        EyeTrackData[2] = three;
     }
 
     public void EyesClosedLValueRead(OscMessageValues mv) {
         var value = float.Parse(mv.ReadStringElement(0), CultureInfo.InvariantCulture.NumberFormat);
-        unsafe { Eyelids[0] = value; }
+        Eyelids[0] = value;
     }
 
     public void EyesClosedRValueRead(OscMessageValues mv) {
         var value = float.Parse(mv.ReadStringElement(0), CultureInfo.InvariantCulture.NumberFormat);
-        unsafe { Eyelids[1] = value; }
+        Eyelids[1] = value;
     }
 
     public void ConfidenceUpperFaceValueRead(OscMessageValues mv) {

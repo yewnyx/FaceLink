@@ -36,7 +36,7 @@ namespace xyz.yewnyx.FaceLink {
             
             while (!VRCReady) {
                 oscQuery.RefreshServices();
-                Thread.Sleep(0);
+                Thread.Sleep(10);
             }
             
             var oscClient = new OscClient(VRCAddress.ToString(), VRCPort);
@@ -118,9 +118,65 @@ namespace xyz.yewnyx.FaceLink {
             oscServer.TryAddMethod(XRFBAddresses.NoseWrinklerL, vr.NoseWrinklerLValueRead);
             oscServer.TryAddMethod(XRFBAddresses.NoseWrinklerR, vr.NoseWrinklerRValueRead);
         }
+        
+        private static void UpdateParameters(ref VRChatFTv2AvatarParameters avatarParameters, ref ValueReaders vr) {
+            // TODO: Add more parameters and find proper mappings for 1,2,4 variants
+            avatarParameters.EyeLidLeft = 1.0f - vr.Eyelids[0];
+            avatarParameters.EyeLidRight = 1.0f - vr.Eyelids[1];
+            avatarParameters.EyeLeftX = vr.EyeTrackData[0];
+            avatarParameters.EyeRightX = vr.EyeTrackData[0];
+            avatarParameters.EyeY = vr.EyeTrackData[1];
 
-        private static void UpdateParameters(ref VRChatFTv2AvatarParameters avatarParameters, ref ValueReaders valueReaders) {
-            // The rest of the fucking owl
+            avatarParameters.JawOpen = vr.Values.JawOpen;
+            avatarParameters.MouthClosed = vr.Values.MouthClosed;
+            avatarParameters.MouthUpperUp = (vr.Values.MouthUpperLeft + vr.Values.MouthUpperRight) / 2.0f;
+            avatarParameters.MouthLowerDown1 = vr.Values.MouthLowerDownLeft;
+            avatarParameters.MouthLowerDown2 = vr.Values.MouthLowerDownRight;
+            avatarParameters.MouthLowerDown4 = (vr.Values.MouthLowerDownLeft + vr.Values.MouthLowerDownRight) / 2.0f;
+            avatarParameters.SmileFrownLeft1 = vr.Values.MouthFrownLeft;
+            avatarParameters.SmileFrownRight1 = vr.Values.MouthFrownRight;
+            //avatarParameters.LipPucker1 = (valueReaders.Values.LipPuckerUpperLeft + valueReaders.Values.LipPuckerUpperRight) / 2.0f;
+            //avatarParameters.LipPucker2 = (valueReaders.Values.LipPuckerLowerLeft + valueReaders.Values.LipPuckerLowerRight) / 2.0f;
+            //avatarParameters.LipPucker4 = 
+            avatarParameters.JawX1 = vr.Values.JawLeft;
+            avatarParameters.JawX2 = vr.Values.JawRight;
+            avatarParameters.JawX4 = (vr.Values.JawLeft + vr.Values.JawRight) / 2.0f;
+            avatarParameters.MouthX1 = vr.Values.MouthStretchLeft;
+            avatarParameters.MouthX2 = vr.Values.MouthStretchRight;
+            avatarParameters.MouthX4 = (vr.Values.MouthStretchLeft + vr.Values.MouthStretchRight) / 2.0f;
+            avatarParameters.MouthX8 = (vr.Values.MouthStretchLeft + vr.Values.MouthStretchRight) / 2.0f;
+            avatarParameters.MouthXNegative = (vr.Values.MouthStretchLeft + vr.Values.MouthStretchRight) / 2.0f;
+            avatarParameters.CheekPuffLeft1 = vr.Values.CheekPuffLeft;
+            avatarParameters.CheekPuffLeft2 = vr.Values.CheekPuffRight;
+            avatarParameters.CheekPuffLeft4 = (vr.Values.CheekPuffLeft + vr.Values.CheekPuffRight) / 2.0f;
+            avatarParameters.MouthRaiserLower1 = vr.Values.MouthRaiserLower;
+            avatarParameters.MouthRaiserLower2 = vr.Values.MouthRaiserUpper;
+            avatarParameters.MouthRaiserLower4 = (vr.Values.MouthRaiserLower + vr.Values.MouthRaiserUpper) / 2.0f;
+            avatarParameters.JawForward1 = vr.Values.JawForward;
+            //avatarParameters.JawForward2 = valueReaders.Values.JawBackward;
+            //avatarParameters.JawForward4 = (valueReaders.Values.JawForward + valueReaders.Values.JawBackward) / 2.0f;
+            //avatarParameters.TongueOut1 = valueReaders.Values.Ton;
+            //avatarParameters.TongueOut2 = valueReaders.Values.TongueIn;
+            //avatarParameters.TongueOut4 = (valueReaders.Values.Ton + valueReaders.Values.TongueIn) / 2.0f;
+            avatarParameters.NoseSneer1 = vr.Values.NoseSneerLeft;
+            avatarParameters.NoseSneer2 = vr.Values.NoseSneerRight;
+            avatarParameters.NoseSneer4 = (vr.Values.NoseSneerLeft + vr.Values.NoseSneerRight) / 2.0f;
+            avatarParameters.MouthStretchLeft1 = vr.Values.MouthStretchLeft;
+            avatarParameters.MouthStretchLeft2 = vr.Values.MouthStretchRight;
+            avatarParameters.MouthStretchLeft4 = (vr.Values.MouthStretchLeft + vr.Values.MouthStretchRight) / 2.0f;
+            avatarParameters.LipSuckUpper1 = vr.Values.LipSuckUpperLeft;
+            avatarParameters.LipSuckUpper2 = vr.Values.LipSuckUpperRight;
+            avatarParameters.LipSuckUpper4 = (vr.Values.LipSuckUpperLeft + vr.Values.LipSuckUpperRight) / 2.0f;
+            avatarParameters.LipSuckLower1 = vr.Values.LipSuckLowerLeft;
+            avatarParameters.LipSuckLower2 = vr.Values.LipSuckLowerRight;
+            avatarParameters.LipSuckLower4 = (vr.Values.LipSuckLowerLeft + vr.Values.LipSuckLowerRight) / 2.0f;
+            //avatarParameters.BrowExpressionLeft1 = valueReaders.Values.Browup;
+            //avatarParameters.BrowExpressionLeft2 = valueReaders.Values.BrowLowererLeft;
+            //avatarParameters.BrowExpressionLeft4 = (valueReaders.Values.Browup + valueReaders.Values.BrowLowererLeft) / 2.0f;
+            //avatarParameters.BrowExpressionRight1 = valueReaders.Values.Brow;
+            //avatarParameters.BrowExpressionRight2 = valueReaders.Values.BrowOuterUpRight;
+            //avatarParameters.BrowExpressionRight4 = (valueReaders.Values.BrowInnerUp + valueReaders.Values.BrowOuterUpRight) / 2.0f;
+            //avatarParameters.Brow
         }
 
         private static void SendParameters(OscClient oscClient, VRChatFTv2AvatarParameters avatarParameters) {
