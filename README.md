@@ -1,6 +1,6 @@
 # FaceLink
 
-***This software is incomplete and non-functional***
+***This software is incomplete and barely-functional***
 
 Basically:
 
